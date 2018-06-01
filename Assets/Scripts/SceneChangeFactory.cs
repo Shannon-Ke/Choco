@@ -8,6 +8,7 @@ public class SceneChangeFactory : MonoBehaviour
 {
     public Button IDButton, moneyButton, townButton, storeButton, inventoryButton, settingsButton;
     public CanvasGroup inventory, id;
+    public Text user;
     void Start()
     {
         IDButton.onClick.AddListener(Id);
@@ -17,6 +18,7 @@ public class SceneChangeFactory : MonoBehaviour
         townButton.onClick.AddListener(Map);
         Deactivate(inventory);
         Deactivate(id);
+        user.text = GameControl.control.username;
     }
     void Store() { SceneManager.LoadScene("Store"); }
     void Settings()

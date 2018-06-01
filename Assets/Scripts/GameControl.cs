@@ -11,8 +11,7 @@ public class GameControl : MonoBehaviour {
     public string username;
     public int money;
     public string prevScene;
-    public bool started;
-    public Text user;
+  
     void Awake()
     {
         if (control == null) {
@@ -30,10 +29,10 @@ public class GameControl : MonoBehaviour {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
             PlayerData data = new PlayerData();
-            started = true;
+
             data.username = username;
             data.money = money;
-            data.started = started;
+           
             binaryFormatter.Serialize(file, data);
             file.Close();
 
@@ -50,26 +49,27 @@ public class GameControl : MonoBehaviour {
 
             username = data.username;
             money = data.money;
-            started = data.started;
+
         } else {
-            Debug.Log("Gote here at least");
+            
             FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
             file.Close();
 
         }
     }
 
-    private void OnGUI()
-    {
-        if (user != null) {
-            user.text = username;
-        }
-    }
+    //private void OnGUI()
+    //{
+    //    if (user != null) {
+    //        Debug.Log(username);
+    //        user.text = username;
+    //    }
+    //}
 
 }
 
 class PlayerData {
     public string username;
     public int money;
-    public bool started;
+
 }

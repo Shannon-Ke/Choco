@@ -9,9 +9,10 @@ public class SceneChangeShop : MonoBehaviour
     public static SceneChangeShop toggle;
     public Button IDButton, moneyButton, townButton, factoryButton, inventoryButton, settingsButton;
     public CanvasGroup inventory, id;
-    public CanvasGroup input, submitButton;
+    public CanvasGroup input, submitButton, gray;
     public Button submit;
     public InputField userInput;
+    public Text user;
     void Start()
     {
         IDButton.onClick.AddListener(Id);
@@ -19,18 +20,23 @@ public class SceneChangeShop : MonoBehaviour
         settingsButton.onClick.AddListener(Settings);
         inventoryButton.onClick.AddListener(Inventory);
         townButton.onClick.AddListener(Map);
+        submit.onClick.AddListener(Submit);
         Deactivate(inventory);
         Deactivate(id);
         Deactivate(input);
+        Deactivate(gray);
         Deactivate(submitButton);
-        submit.onClick.AddListener(Submit);
     }
     private void Update()
     {
-        if (!GameControl.control.started) {
+        if (string.Equals(GameControl.control.username, "")) {
             Activate(input);
             Activate(submitButton);
+            Activate(gray);
+        } else {
+            user.text = GameControl.control.username;
         }
+
     }
     void Factory() { SceneManager.LoadScene("Factory"); }
     void Settings() {
@@ -51,8 +57,10 @@ public class SceneChangeShop : MonoBehaviour
     void Submit()
     {
         GameControl.control.username = userInput.text;
+        user.text = GameControl.control.username;
         Deactivate(input);
         Deactivate(submitButton);
+        Deactivate(gray);
     }
     public void Deactivate(CanvasGroup canvas) {
         canvas.alpha = 0f;
