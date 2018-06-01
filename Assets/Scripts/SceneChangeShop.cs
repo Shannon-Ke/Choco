@@ -6,8 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class SceneChangeShop : MonoBehaviour
 {
+    public static SceneChangeShop toggle;
     public Button IDButton, moneyButton, townButton, factoryButton, inventoryButton, settingsButton;
     public CanvasGroup inventory, id;
+    public CanvasGroup input, submitButton;
+    public Button submit;
+    public InputField userInput;
     void Start()
     {
         IDButton.onClick.AddListener(Id);
@@ -17,9 +21,22 @@ public class SceneChangeShop : MonoBehaviour
         townButton.onClick.AddListener(Map);
         Deactivate(inventory);
         Deactivate(id);
+        Deactivate(input);
+        Deactivate(submitButton);
+        submit.onClick.AddListener(Submit);
+    }
+    private void Update()
+    {
+        if (!GameControl.control.started) {
+            Activate(input);
+            Activate(submitButton);
+        }
     }
     void Factory() { SceneManager.LoadScene("Factory"); }
-    void Settings() { SceneManager.LoadScene("Settings"); }
+    void Settings() {
+        GameControl.control.prevScene = "Store";
+        SceneManager.LoadScene("Settings"); 
+    }
     void Map() { SceneManager.LoadScene("Town"); }
     void Inventory() {
         if (id.interactable) { Deactivate(id); }
@@ -31,12 +48,18 @@ public class SceneChangeShop : MonoBehaviour
         if (!id.interactable) { Activate(id); }
         else { Deactivate(id); }
     }
-    void Deactivate(CanvasGroup canvas) {
+    void Submit()
+    {
+        GameControl.control.username = userInput.text;
+        Deactivate(input);
+        Deactivate(submitButton);
+    }
+    public void Deactivate(CanvasGroup canvas) {
         canvas.alpha = 0f;
         canvas.interactable = false;
         canvas.blocksRaycasts = false;
     }
-    void Activate (CanvasGroup canvas) {
+    public void Activate (CanvasGroup canvas) {
         canvas.alpha = 1f;
         canvas.interactable = true;
         canvas.blocksRaycasts = true;

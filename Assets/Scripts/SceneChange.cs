@@ -11,5 +11,8 @@ public class SceneChange : MonoBehaviour {
         settingsButton.onClick.AddListener(Settings);
 	}
     void Enter() { SceneManager.LoadScene("Store"); }
-    void Settings() { SceneManager.LoadScene("Settings"); }
+    void Settings() {
+        GameControl.control.prevScene = "MainMenu";
+        SceneManager.LoadScene("Settings");
+    }
 }
