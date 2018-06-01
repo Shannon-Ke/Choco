@@ -59,12 +59,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\GameControl.cs" />
     <Compile Include="Assets\Scripts\SceneChange.cs" />
+    <Compile Include="Assets\Scripts\SceneChangeShop.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/Users/ske/Documents/Choco/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>/Users/ske/Documents/Choco/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Xiaomi">
+      <HintPath>/Users/ske/Documents/Choco/Library/ScriptAssemblies/Xiaomi.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -266,6 +271,12 @@
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>/Users/ske/Library/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="ChannelPurchase">
+      <HintPath>/Users/ske/Library/Unity/cache/packages/packages.unity.com/com.unity.xiaomi@1.0.2/ChannelPurchase.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityStore">
+      <HintPath>/Users/ske/Library/Unity/cache/packages/packages.unity.com/com.unity.xiaomi@1.0.2/UnityStore.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>/Applications/Unity/Unity.app/Contents/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>
