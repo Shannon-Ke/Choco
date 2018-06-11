@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class SceneChangeTown : MonoBehaviour
 {
     public Button IDButton, moneyButton, shopButton, inventoryButton, settingsButton;
     public CanvasGroup inventory, id;
-    public Text user;
+    public Text user, time;
     void Start()
     {
         IDButton.onClick.AddListener(Id);
@@ -51,5 +52,8 @@ public class SceneChangeTown : MonoBehaviour
         canvas.interactable = true;
         canvas.blocksRaycasts = true;
     }
-
+    private void Update()
+    {
+        time.text = "" + GameControl.control.time;
+    }
 }

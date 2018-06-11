@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class SceneChangeShop : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class SceneChangeShop : MonoBehaviour
     public CanvasGroup input, submitButton, gray;
     public Button submit;
     public InputField userInput;
-    public Text user;
+    public Text user, time;
     void Start()
     {
         IDButton.onClick.AddListener(Id);
@@ -29,27 +30,35 @@ public class SceneChangeShop : MonoBehaviour
     }
     private void Update()
     {
-        if (string.Equals(GameControl.control.username, "")) {
+        if (GameControl.control.username == null)
+        {
             Activate(input);
             Activate(submitButton);
             Activate(gray);
-        } else {
+        }
+        else
+        {
             user.text = GameControl.control.username;
         }
+        //gonna wanna change this to in game time
+        time.text = "" + GameControl.control.time;
 
     }
     void Factory() { SceneManager.LoadScene("Factory"); }
-    void Settings() {
+    void Settings()
+    {
         GameControl.control.prevScene = "Store";
-        SceneManager.LoadScene("Settings"); 
+        SceneManager.LoadScene("Settings");
     }
     void Map() { SceneManager.LoadScene("Town"); }
-    void Inventory() {
+    void Inventory()
+    {
         if (id.interactable) { Deactivate(id); }
         if (!inventory.interactable) { Activate(inventory); }
         else { Deactivate(inventory); }
     }
-    void Id() {
+    void Id()
+    {
         if (inventory.interactable) { Deactivate(inventory); }
         if (!id.interactable) { Activate(id); }
         else { Deactivate(id); }
@@ -62,15 +71,16 @@ public class SceneChangeShop : MonoBehaviour
         Deactivate(submitButton);
         Deactivate(gray);
     }
-    public void Deactivate(CanvasGroup canvas) {
+    public void Deactivate(CanvasGroup canvas)
+    {
         canvas.alpha = 0f;
         canvas.interactable = false;
         canvas.blocksRaycasts = false;
     }
-    public void Activate (CanvasGroup canvas) {
+    public void Activate(CanvasGroup canvas)
+    {
         canvas.alpha = 1f;
         canvas.interactable = true;
         canvas.blocksRaycasts = true;
     }
-
 }
