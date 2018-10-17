@@ -20,73 +20,64 @@ public class GameControl : MonoBehaviour {
         } else if (control != this) {
             Destroy(gameObject);
         }
-        SaveFile();
-        LoadFile();
-
-    }
-    public void SaveFile()
-    {
-        string destination = Application.persistentDataPath + "/playerInfo.dat";
-        FileStream file;
-
-        if (File.Exists(destination)) {
-            file = File.OpenWrite(destination);
-        }
-        else {
-            file = File.Create(destination);
-        }
         Debug.Log(Application.persistentDataPath);
-        PlayerData data = new PlayerData(username, money);
-
-        BinaryFormatter bf = new BinaryFormatter();
-        bf.Serialize(file, data);
-        file.Close();
-        //if (File.Exists(Application.persistentDataPath + "playerInfo.dat"))
-        //{
-        //    //BinaryFormatter binaryFormatter = new BinaryFormatter();
-        //    //FileStream file = File.OpenWrite(Application.persistentDataPath + "/playerInfo.dat");
-        //    //PlayerData data = new PlayerData();
-
-        //    //data.username = username;
-        //    //data.money = money;
-           
-        //    //binaryFormatter.Serialize(file, data);
-        //    //file.Close();
-        //    string destination = Application.persistentDataPath + "/playerInfo.dat";
-        //    FileStream file;
-
-        //    if (File.Exists(destination)) file = File.OpenWrite(destination);
-        //    else file = File.Create(destination);
-
-        //    PlayerData data = new PlayerData();
-        //    data.username = username;
-        //    data.money = money;
-        //    BinaryFormatter bf = new BinaryFormatter();
-        //    bf.Serialize(file, data);
-        //    file.Close();
-        //}
-    }
-    public void LoadFile()
-    {
-        if (File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
-        {
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            FileStream file = File.OpenRead(Application.persistentDataPath + "/playerInfo.dat");
-            PlayerData data = (PlayerData)binaryFormatter.Deserialize(file);
+        if(File.Exists(Application.persistentDataPath + "/playerInfo.dat")) {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
+            PlayerData data = (PlayerData)bf.Deserialize(file) as PlayerData;
             file.Close();
             Debug.Log(data.username + " loaded file");
             username = data.username;
             money = data.money;
-
         } else {
-            
+            username = null;
+            money = 0;
+        }
+
+    }
+    public void SaveFile()
+    {
+        if (!File.Exists(Application.persistentDataPath + "/playerInfo.dat")) {
+            BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
-            Debug.Log("no file");
-
+            PlayerData data = new PlayerData();
+            data.username = username;
+            data.money = 0;
+            bf.Serialize(file, data);
             file.Close();
-
+        } else if (File.Exists(Application.persistentDataPath + "/playerInfo.dat")) {
+            Debug.Log("do I ever get here");
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
+            //PlayerData data = (PlayerData)bf.Deserialize(file) as PlayerData;
+            PlayerData data = new PlayerData();
+            data.username = username;
+            data.money = 5;
+            bf.Serialize(file, data);
+            file.Close();
         }
     }
+    // public void LoadFile()
+    // {
+    //     if (File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
+    //     {
+    //         BinaryFormatter binaryFormatter = new BinaryFormatter();
+    //         FileStream file = File.OpenRead(Application.persistentDataPath + "/playerInfo.dat");
+    //         PlayerData data = (PlayerData)binaryFormatter.Deserialize(file);
+    //         file.Close();
+    //         Debug.Log(data.username + " loaded file");
+    //         username = data.username;
+    //         money = data.money;
+
+    //     } else {
+            
+    //         FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
+    //         Debug.Log("no file");
+
+    //         file.Close();
+
+    //     }
+    // }
     public void DeleteFile() {
         File.Delete(Application.persistentDataPath + "/playerInfo.dat");
         username = null;
@@ -100,7 +91,10 @@ public class GameControl : MonoBehaviour {
     void timerEnded() {
         time = 0.0f;
     }
-
+    void OnApplicationQuit() {
+        Debug.Log("Application ending after " + Time.time + " seconds");
+        SaveFile();
+    }
     //private void OnGUI()
     //{
     //    if (user != null) {
@@ -114,8 +108,8 @@ public class GameControl : MonoBehaviour {
 class PlayerData {
     public string username;
     public int money;
-    public PlayerData(string user, int moolah) {
-        username = user;
-        money = moolah;
-    }
+    // public PlayerData(string user, int moolah) {
+    //     username = user;
+    //     money = moolah;
+    // }
 }
